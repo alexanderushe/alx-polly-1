@@ -98,7 +98,15 @@ export async function submitVote(pollId: string, optionIndex: number) {
 // DELETE POLL
 export async function deletePoll(id: string) {
   const supabase = await createClient();
-  const { error } = await supabase.from("polls").delete().eq("id", id);
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { error: "Not authenticated" };
+  const { error } = await supabase
+    .from("polls")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", user.id);
   if (error) return { error: error.message };
   revalidatePath("/polls");
   return { error: null };

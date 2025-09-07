@@ -1,7 +1,7 @@
-'use server';
+"use server";
 
-import { createClient } from '@/lib/supabase/server';
-import { LoginFormData, RegisterFormData } from '../types';
+import { createClient } from "@/lib/supabase/server";
+import { LoginFormData, RegisterFormData } from "../types";
 
 export async function login(data: LoginFormData) {
   const supabase = await createClient();
@@ -12,7 +12,7 @@ export async function login(data: LoginFormData) {
   });
 
   if (error) {
-    return { error: error.message };
+    return { error: "Invalid credentials" };
   }
 
   // Success: no error
@@ -33,7 +33,7 @@ export async function register(data: RegisterFormData) {
   });
 
   if (error) {
-    return { error: error.message };
+    return { error: "Could not create user" };
   }
 
   // Success: no error
